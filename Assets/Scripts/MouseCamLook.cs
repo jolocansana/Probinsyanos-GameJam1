@@ -39,8 +39,12 @@ public class MouseCamLook : MonoBehaviour
         // the interpolated float result between the two float values
         smoothV.x = Mathf.Lerp(smoothV.x, md.x, 1f / smoothing);
         smoothV.y = Mathf.Lerp(smoothV.y, md.y, 1f / smoothing);
+
         // incrementally add to the camera look
         mouseLook += smoothV;
+
+        // Add camera clumping to prevent sommersaults
+        mouseLook.y = Mathf.Clamp(mouseLook.y, -90f, 90f);
 
         // vector3.right means the x-axis
         transform.localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
