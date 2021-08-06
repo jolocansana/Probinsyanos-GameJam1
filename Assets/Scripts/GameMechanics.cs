@@ -18,7 +18,7 @@ public class GameMechanics : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timer = 5; // in seconds
+        timer = 60; // in seconds
 
         inventory = new List<string>();
         EventBroadcaster.Instance.AddObserver(EventNames.GameJam.CHECK_INVENTORY, this.CheckInventory);
