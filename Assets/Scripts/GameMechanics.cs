@@ -8,9 +8,14 @@ public class GameMechanics : MonoBehaviour
     private List<string> inventory;
     private int timer;
 
+    private int arnis_count = 0;
+    private int pipe_count = 0;
+    private int domino_count = 0;
+
     [SerializeField] private List<GameObject> goldbergComponents;
     [SerializeField] private GameObject gameOverCanvas;
     [SerializeField] private GameObject TimerText;
+    [SerializeField] private GameObject InventoryText;
     [SerializeField] private GameObject PromptCanvas;
     [SerializeField] private GameObject PlayerObject;
     [SerializeField] private GameObject defaultCamera;
@@ -28,6 +33,12 @@ public class GameMechanics : MonoBehaviour
 
         // test
         this.StartCoroutine(this.UpdateTimer());
+
+        InventoryText.GetComponent<Text>().text =
+            "Inventory:\n" +
+            "Arnis Stick: " + arnis_count + "/1\n" +
+            "Pipe: " + pipe_count + "/1\n" +
+            "Dominios: " + domino_count + "/3\n";
     }
 
     // Update is called once per frame
@@ -69,6 +80,7 @@ public class GameMechanics : MonoBehaviour
         // loop through inventory array: if itemName exists, reveal in goldberg, else, prompt user that item is not in inventory.
         foreach (string x in inventory)
         {
+            Debug.Log(x);
             GameObject component = goldbergComponents.Find(
                         delegate (GameObject gameObject)
                         {
@@ -84,10 +96,32 @@ public class GameMechanics : MonoBehaviour
     {
         string itemName = param.GetStringExtra("itemName", "none");
         inventory.Add(itemName);
-        foreach(string x in inventory)
+
+        switch(itemName)
         {
-            Debug.Log(x);
+            case "Arnis_Dirty":
+                arnis_count++;
+                break;
+            case "Pipe_Hide":
+                pipe_count++;
+                break;
+            default:
+                domino_count++;
+                break;
         }
+
+        // foreach (string x in inventory)
+        // {
+        //    Debug.Log(x);
+        //}
+
+
+        InventoryText.GetComponent<Text>().text = 
+            "Inventory:\n" +
+            "Arnis Stick: " + arnis_count + "/1\n" +
+            "Pipe: " + pipe_count + "/1\n" +
+            "Dominios: " + domino_count + "/3\n";
+
     }
 
     void GameOver()

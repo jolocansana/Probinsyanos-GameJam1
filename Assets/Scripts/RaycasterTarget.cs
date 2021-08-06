@@ -67,7 +67,7 @@ public class RaycasterTarget : MonoBehaviour
         if (enableObjectHighlighting)
         {
             // Debug.Log("Target highlighted");
-            parameters.PutExtra("prompt_text", "Press E to trigger");
+            parameters.PutExtra("prompt_text", "Press E to Click or Get Item");
             parameters.PutExtra("trigger", true);
 
             EventBroadcaster.Instance.PostEvent(EventNames.GameJam.TRIGGER_PROMPT, parameters);
