@@ -147,11 +147,12 @@ public class GameMechanics : MonoBehaviour
         //}
 
 
-        InventoryText.GetComponent<Text>().text = 
+        InventoryText.GetComponent<Text>().text =
             "Inventory:\n" +
             "Arnis Stick: " + arnis_count + "/1\n" +
             "Pipe: " + pipe_count + "/1\n" +
-            "Dominios: " + domino_count + "/3\n";
+            "Dominios: " + domino_count + "/3\n\n" +
+            "Complete items before clicking the red button!\n";
 
     }
 
