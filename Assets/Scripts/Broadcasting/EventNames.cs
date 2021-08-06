@@ -18,6 +18,8 @@ public class EventNames {
 		public const string CHECK_INVENTORY = "CHECK_INVENTORY";
 		public const string ADD_INVENTORY = "ADD_INVENTORY";
 		public const string GAME_OVER = "GAME_OVER";
+		public const string RESET_GOLDBERG = "RESET_GOLDBERG";
+		public const string TRIGGER_PROMPT = "TRIGGER_PROMPT";
 	}
 	public class ARBluetoothEvents {
 		public const string ON_START_BLUETOOTH_DEMO = "ON_START_BLUETOOTH_DEMO";

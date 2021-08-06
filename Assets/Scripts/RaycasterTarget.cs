@@ -9,6 +9,7 @@ public class RaycasterTarget : MonoBehaviour
     [SerializeField] private bool enableObjectSelection = true;
     [SerializeField] private bool enableObjectHighlighting = true;
     [SerializeField] private Material highlightMaterial;
+    [SerializeField] private string action;
 
     private new MeshRenderer renderer;
 
@@ -25,24 +26,51 @@ public class RaycasterTarget : MonoBehaviour
     {
         if (highlighted)
         {
+            Parameters parameters = new Parameters();
+
+            parameters.PutExtra("trigger", false);
+
+            EventBroadcaster.Instance.PostEvent(EventNames.GameJam.TRIGGER_PROMPT, parameters);
             this.renderer.material = this.defaultMaterial;
             highlighted = false;
         }
     }
     public void RayTargetHit()
     {
+        Parameters parameters = new Parameters();
+
         if (enableObjectSelection)
         {
-            Debug.Log("Target hit");
-            obj.SetActive(false);
-        }
+            if (action.Equals("check"))
+            {
+                EventBroadcaster.Instance.PostEvent(EventNames.GameJam.RESET_GOLDBERG);
+                EventBroadcaster.Instance.PostEvent(EventNames.GameJam.CHECK_INVENTORY, parameters);
+            } 
+            else
+            {
+                string name = obj.name;
+                parameters.PutExtra("itemName", name);
+
+                EventBroadcaster.Instance.PostEvent(EventNames.GameJam.ADD_INVENTORY, parameters);
+                obj.SetActive(false);
+            }
+
+            parameters.PutExtra("trigger", false);
+            EventBroadcaster.Instance.PostEvent(EventNames.GameJam.TRIGGER_PROMPT, parameters);
+        } 
     }
 
     public void RayTargetHighlight()
     {
+        Parameters parameters = new Parameters();
+
         if (enableObjectHighlighting)
         {
-            Debug.Log("Target highlighted");
+            // Debug.Log("Target highlighted");
+            parameters.PutExtra("prompt_text", "Press E to trigger");
+            parameters.PutExtra("trigger", true);
+
+            EventBroadcaster.Instance.PostEvent(EventNames.GameJam.TRIGGER_PROMPT, parameters);
             this.renderer.material = this.highlightMaterial;
             this.highlighted = true;
         }
