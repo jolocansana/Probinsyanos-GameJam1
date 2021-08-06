@@ -12,14 +12,19 @@ public class GameMechanics : MonoBehaviour
     private int pipe_count = 0;
     private int domino_count = 0;
 
+    private Transform arnis_transform;
+
+    private bool game_end = false;
+
     [SerializeField] private List<GameObject> goldbergComponents;
     [SerializeField] private GameObject gameOverCanvas;
+    [SerializeField] private GameObject winnerCanvas;
     [SerializeField] private GameObject TimerText;
     [SerializeField] private GameObject InventoryText;
     [SerializeField] private GameObject PromptCanvas;
     [SerializeField] private GameObject PlayerObject;
+    [SerializeField] private GameObject UIComponent;
     [SerializeField] private GameObject defaultCamera;
-    [SerializeField] private GameObject winner_cube;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +46,9 @@ public class GameMechanics : MonoBehaviour
             "Arnis Stick: " + arnis_count + "/1\n" +
             "Pipe: " + pipe_count + "/1\n" +
             "Dominios: " + domino_count + "/3\n";
+
+        // Tutorial Prompt
+        this.StartCoroutine(this.triggerTutorial());
     }
 
     // Update is called once per frame
@@ -90,7 +98,7 @@ public class GameMechanics : MonoBehaviour
                             return gameObject.name.Equals(x);
                         }
                     );
-            if (component) component.SetActive(true);
+            component.SetActive(true);
         }
     }
 
@@ -98,18 +106,23 @@ public class GameMechanics : MonoBehaviour
     void AddInventory(Parameters param)
     {
         string itemName = param.GetStringExtra("itemName", "none");
-        inventory.Add(itemName);
 
         switch(itemName)
         {
             case "Arnis_Dirty":
                 arnis_count++;
+                inventory.Add(itemName);
                 break;
             case "Pipe_Hide":
                 pipe_count++;
+                inventory.Add(itemName);
                 break;
             default:
                 domino_count++;
+                if (domino_count == 3)
+                {
+                    inventory.Add("HiddenDomino");
+                }
                 break;
         }
 
@@ -135,12 +148,22 @@ public class GameMechanics : MonoBehaviour
         // disable player
         PlayerObject.SetActive(false);
         defaultCamera.SetActive(true);
+        game_end = true;
+        UIComponent.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
     }
 
     void machineComplete()
     {
-        Debug.Log("machine complete");
+        // gameover logic via winning or times up
+        winnerCanvas.SetActive(true);
+
+        // disable player
+        PlayerObject.SetActive(false);
+        defaultCamera.SetActive(true);
+        game_end = true;
+        UIComponent.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
     }
 
 
@@ -163,9 +186,18 @@ public class GameMechanics : MonoBehaviour
         {
             this.GameOver();
         }
-        else
+        else if (!game_end)
         {
             this.StartCoroutine(this.UpdateTimer());
         }
+    }
+
+    IEnumerator triggerTutorial()
+    {
+        PromptCanvas.GetComponentInChildren<Text>().text = "WASD to move. Collect the missing items in your inventory!";
+        PromptCanvas.SetActive(true);
+
+        yield return new WaitForSeconds(10.0f);
+        PromptCanvas.SetActive(false);
     }
 }

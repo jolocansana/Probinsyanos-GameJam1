@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: YouWinColor
   m_EditorClassIdentifier: 
   colorMode: 3
-  topLeft: {r: 1, g: 1, b: 1, a: 1}
-  topRight: {r: 1, g: 1, b: 1, a: 1}
-  bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-  bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  topLeft: {r: 0, g: 1, b: 0.22201324, a: 1}
+  topRight: {r: 0, g: 1, b: 0.19350243, a: 1}
+  bottomLeft: {r: 0, g: 1, b: 0.16568494, a: 1}
+  bottomRight: {r: 0, g: 1, b: 0.2237246, a: 1}
