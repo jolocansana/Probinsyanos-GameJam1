@@ -19,6 +19,7 @@ public class GameMechanics : MonoBehaviour
     [SerializeField] private GameObject PromptCanvas;
     [SerializeField] private GameObject PlayerObject;
     [SerializeField] private GameObject defaultCamera;
+    [SerializeField] private GameObject winner_cube;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,7 @@ public class GameMechanics : MonoBehaviour
         EventBroadcaster.Instance.AddObserver(EventNames.GameJam.ADD_INVENTORY, this.AddInventory);
         EventBroadcaster.Instance.AddObserver(EventNames.GameJam.GAME_OVER, this.GameOver);
         EventBroadcaster.Instance.AddObserver(EventNames.GameJam.TRIGGER_PROMPT, this.triggerPrompt);
+        EventBroadcaster.Instance.AddObserver(EventNames.GameJam.MACHINE_COMPLETE, this.machineComplete);
 
         // test
         this.StartCoroutine(this.UpdateTimer());
@@ -53,6 +55,7 @@ public class GameMechanics : MonoBehaviour
         EventBroadcaster.Instance.RemoveObserver(EventNames.GameJam.ADD_INVENTORY);
         EventBroadcaster.Instance.RemoveObserver(EventNames.GameJam.GAME_OVER);
         EventBroadcaster.Instance.RemoveObserver(EventNames.GameJam.TRIGGER_PROMPT);
+        EventBroadcaster.Instance.RemoveObserver(EventNames.GameJam.MACHINE_COMPLETE);
     }
 
     void triggerPrompt(Parameters param)
@@ -133,6 +136,11 @@ public class GameMechanics : MonoBehaviour
         PlayerObject.SetActive(false);
         defaultCamera.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    void machineComplete()
+    {
+        Debug.Log("machine complete");
     }
 
 
