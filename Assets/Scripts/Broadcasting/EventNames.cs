@@ -20,6 +20,7 @@ public class EventNames {
 		public const string GAME_OVER = "GAME_OVER";
 		public const string RESET_GOLDBERG = "RESET_GOLDBERG";
 		public const string TRIGGER_PROMPT = "TRIGGER_PROMPT";
+		public const string MACHINE_COMPLETE = "MACHINE_COMPLETE";
 	}
 	public class ARBluetoothEvents {
 		public const string ON_START_BLUETOOTH_DEMO = "ON_START_BLUETOOTH_DEMO";
