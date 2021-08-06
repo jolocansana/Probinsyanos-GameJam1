@@ -45,7 +45,8 @@ public class GameMechanics : MonoBehaviour
             "Inventory:\n" +
             "Arnis Stick: " + arnis_count + "/1\n" +
             "Pipe: " + pipe_count + "/1\n" +
-            "Dominios: " + domino_count + "/3\n";
+            "Dominios: " + domino_count + "/3\n\n" +
+            "Complete items before clicking the red button!\n";
 
         // Tutorial Prompt
         this.StartCoroutine(this.triggerTutorial());
@@ -73,6 +74,7 @@ public class GameMechanics : MonoBehaviour
         if (trigger)
         {
             PromptCanvas.GetComponentInChildren<Text>().text = text;
+            PromptCanvas.GetComponentInChildren<Text>().fontSize = 18;
             PromptCanvas.SetActive(true);
         } 
         else
@@ -89,18 +91,31 @@ public class GameMechanics : MonoBehaviour
         Debug.Log("Checking Inventory");
 
         // loop through inventory array: if itemName exists, reveal in goldberg, else, prompt user that item is not in inventory.
-        foreach (string x in inventory)
+        if (arnis_count == 1 && pipe_count == 1 && domino_count == 3)
         {
-            Debug.Log(x);
-            GameObject component = goldbergComponents.Find(
-                        delegate (GameObject gameObject)
-                        {
-                            return gameObject.name.Equals(x);
-                        }
-                    );
-            component.SetActive(true);
+            foreach (string x in inventory)
+            {
+                Debug.Log(x);
+                GameObject component = goldbergComponents.Find(
+                            delegate (GameObject gameObject)
+                            {
+                                return gameObject.name.Equals(x);
+                            }
+                        );
+                component.SetActive(true);
+            }
+
+            EventBroadcaster.Instance.PostEvent(EventNames.GameJam.RESET_GOLDBERG);
+
         }
+        //else
+        //{
+        //    PromptCanvas.GetComponentInChildren<Text>().text = "Incomplete items!";
+        //    PromptCanvas.GetComponentInChildren<Text>().fontSize = 18;
+        //    PromptCanvas.SetActive(true);
+        //}
     }
+
 
     // When picking up an item
     void AddInventory(Parameters param)
@@ -194,7 +209,8 @@ public class GameMechanics : MonoBehaviour
 
     IEnumerator triggerTutorial()
     {
-        PromptCanvas.GetComponentInChildren<Text>().text = "WASD to move. Collect the missing items in your inventory!";
+        PromptCanvas.GetComponentInChildren<Text>().text = "WASD to move. Collect the missing items in your inventory! Press the red button to run the goldberg machine when complete.";
+        PromptCanvas.GetComponentInChildren<Text>().fontSize = 12;
         PromptCanvas.SetActive(true);
 
         yield return new WaitForSeconds(10.0f);

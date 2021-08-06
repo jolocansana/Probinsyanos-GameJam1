@@ -43,7 +43,6 @@ public class RaycasterTarget : MonoBehaviour
         {
             if (action.Equals("check"))
             {
-                EventBroadcaster.Instance.PostEvent(EventNames.GameJam.RESET_GOLDBERG);
                 EventBroadcaster.Instance.PostEvent(EventNames.GameJam.CHECK_INVENTORY, parameters);
             } 
             else
